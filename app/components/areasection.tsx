@@ -74,7 +74,7 @@ export default function AreaSection({
           </p>
         </div>
         <div className="flex items-center gap-2 rounded-full bg-slate-50 py-1.5 pl-1.5 pr-3">
-          <span className="flex h-7 w-7 items-center justify-center rounded-full bg-emerald-100 text-xs font-semibold text-emerald-900">
+          <span           className="flex h-7 w-7 items-center justify-center rounded-full bg-brand-100 text-xs font-semibold text-brand-900">
             {assignedPerson.slice(0, 1)}
           </span>
           <span className="text-xs font-medium text-slate-600">
@@ -104,7 +104,7 @@ export default function AreaSection({
                     aria-hidden="true"
                     className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border text-xs ${
                       isCompleted
-                        ? "border-emerald-600 bg-emerald-600 font-semibold text-white"
+                        ? "border-brand-600 bg-brand-600 font-semibold text-white"
                         : "border-slate-300 bg-white"
                     }`}
                   >
@@ -141,7 +141,7 @@ export default function AreaSection({
                         void onSave(area, task.name, week, value);
                       }
                     }}
-                    className="h-11 min-w-0 flex-1 rounded-xl border border-slate-200 bg-white px-3 text-center text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-600/15 disabled:bg-slate-50 disabled:text-slate-400 sm:w-[5.5rem] sm:flex-none"
+                    className="h-11 min-w-0 flex-1 rounded-xl border border-slate-200 bg-white px-3 text-center text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-brand-600 focus:ring-2 focus:ring-brand-600/15 disabled:bg-slate-50 disabled:text-slate-400 sm:w-[5.5rem] sm:flex-none"
                   />
                   <button
                     type="button"
@@ -151,8 +151,8 @@ export default function AreaSection({
                     }
                     className={`h-11 flex-1 rounded-xl px-3 text-xs font-semibold transition disabled:cursor-not-allowed disabled:opacity-45 sm:flex-none sm:px-4 ${
                       isCompleted && value === today
-                        ? "bg-emerald-50 text-emerald-800 hover:bg-emerald-100"
-                        : "bg-emerald-700 text-white hover:bg-emerald-800"
+                        ? "bg-brand-50 text-brand-800 hover:bg-brand-100"
+                        : "bg-brand-700 text-white hover:bg-brand-800"
                     }`}
                   >
                     {isSaving

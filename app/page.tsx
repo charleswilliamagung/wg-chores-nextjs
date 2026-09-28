@@ -202,8 +202,8 @@ export default function Home() {
       <div className="mx-auto max-w-5xl">
         <header className="mb-8 flex flex-col gap-5 sm:mb-10 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-emerald-900/10 bg-white/80 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-emerald-900">
-              <span className="h-2 w-2 rounded-full bg-emerald-600" />
+            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-brand-900/10 bg-white/80 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-brand-900">
+              <span className="h-2 w-2 rounded-full bg-brand-600" />
               WG Chores
             </div>
             <h1 className="text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
@@ -220,24 +220,24 @@ export default function Home() {
 
         <section
           aria-label="Weekly chore progress"
-          className="mb-5 rounded-2xl bg-emerald-950 px-5 py-5 text-white shadow-sm sm:px-7 sm:py-6"
+          className="mb-5 rounded-2xl bg-brand-100 px-5 py-5 text-brand-900 shadow-sm sm:px-7 sm:py-6"
         >
           <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="text-sm font-medium text-emerald-100/75">
+              <p className="text-sm font-medium text-brand-800">
                 {selectedWeek - 1 === currentWeek
                   ? "This week"
                   : `Week ${selectedWeek}`}
               </p>
               <p className="mt-1 text-2xl font-semibold tracking-tight">
                 {completedCount}{" "}
-                <span className="text-emerald-100/70">
+                <span className="text-brand-800/80">
                   of {totalCount} chores done
                 </span>
               </p>
             </div>
             <div className="w-full sm:w-52">
-              <div className="mb-2 flex items-center justify-between text-xs font-medium text-emerald-100/75">
+              <div className="mb-2 flex items-center justify-between text-xs font-medium text-brand-800">
                 <span>Weekly progress</span>
                 <span>{progress}%</span>
               </div>
@@ -246,11 +246,11 @@ export default function Home() {
                 aria-valuemax={100}
                 aria-valuemin={0}
                 aria-valuenow={progress}
-                className="h-2 overflow-hidden rounded-full bg-white/15"
+                className="h-2 overflow-hidden rounded-full bg-brand-200"
                 role="progressbar"
               >
                 <div
-                  className="h-full rounded-full bg-emerald-300 transition-[width] duration-300"
+                  className="h-full rounded-full bg-brand-300 transition-[width] duration-300"
                   style={{ width: `${progress}%` }}
                 />
               </div>
@@ -279,7 +279,7 @@ export default function Home() {
             <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-slate-400">
               Week {selectedWeek}
               {selectedWeek - 1 === currentWeek && (
-                <span className="ml-2 rounded-full bg-emerald-50 px-2 py-1 tracking-normal text-emerald-800">
+                <span className="ml-2 rounded-full bg-brand-50 px-2 py-1 tracking-normal text-brand-800">
                   Current
                 </span>
               )}
@@ -311,7 +311,7 @@ export default function Home() {
             className={`mb-5 rounded-xl px-4 py-3 text-sm font-medium ${
               feedback.type === "error"
                 ? "bg-rose-50 text-rose-800 ring-1 ring-rose-200"
-                : "bg-emerald-50 text-emerald-800 ring-1 ring-emerald-200"
+                : "bg-brand-50 text-brand-800 ring-1 ring-brand-200"
             }`}
           >
             {feedback.message}
