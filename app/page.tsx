@@ -1,7 +1,7 @@
 "use client";
 
 import AreaSection from "./components/areasection";
-import { Task, Entry } from "./types";
+import { Entry } from "./types";
 import { areas } from "./data/areas";
 import {
   getWeeks,
@@ -19,66 +19,71 @@ export default function Home() {
   const weeks = getWeeks();
   const [entries, setEntries] = useState<Entry[]>([]);
   const [saved, setSaved] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
-    async function markDoneToday(
-  area: string,
-  task: string,
-  week: number
-) {
-  await saveCell(
-    area,
-    task,
-    week,
-    getTodayString()
-  );
-}
+  async function markDoneToday(
+    area: string,
+    task: string,
+    week: number,
+    allowMultiple: boolean,
+    currentValue: string
+  ) {
+    const today = getTodayString();
+    const value = allowMultiple && currentValue
+      ? `${currentValue} | ${today}`
+      : today;
 
+    await saveCell(area, task, week, value);
+  }
 
   function getTodayString() {
     return new Date().toLocaleDateString(
-    "de-DE",
-        {
-          day: "2-digit",
-          month: "2-digit",
-        }
-      );
-  }
-
-    async function saveCell(
-  area: string,
-  task: string,
-  week: number,
-  value: string
-) {
-
-  const { error } = await supabase
-    .from("entries")
-    .upsert(
-      [
-        {
-          area,
-          task,
-          week,
-          month: new Date().toISOString().slice(0, 7),
-          value,
-        },
-      ],
+      "de-DE",
       {
-        onConflict: "month,area,task,week",
+        day: "2-digit",
+        month: "2-digit",
       }
     );
+  }
 
-  if (!error) {
+  async function saveCell(
+    area: string,
+    task: string,
+    week: number,
+    value: string
+  ) {
+    const { error } = await supabase
+      .from("entries")
+      .upsert(
+        [
+          {
+            area,
+            task,
+            week,
+            month: new Date().toISOString().slice(0, 7),
+            value,
+          },
+        ],
+        {
+          onConflict: "month,area,task,week",
+        }
+      );
 
-  setSaved(true);
+    if (error) {
+      console.error(error);
+      setSaveError("Unable to save chore. Please try again.");
+      return;
+    }
 
-  setTimeout(() => {
-    setSaved(false);
-  }, 2000);
+    setSaveError(null);
+    setSaved(true);
 
-  await loadEntries();
-}
-}
+    setTimeout(() => {
+      setSaved(false);
+    }, 2000);
+
+    await loadEntries();
+  }
 
   async function loadEntries() {
 
@@ -143,6 +148,12 @@ export default function Home() {
       {saved && (
         <p className="text-green-600 mb-4">
           ✅ Saved
+        </p>
+      )}
+
+      {saveError && (
+        <p role="alert" className="text-red-600 mb-4">
+          {saveError}
         </p>
       )}
 

@@ -5,10 +5,12 @@ export const areas: Record<string, Task[]> = {
     {
       name: "Vacuum & mop floor",
       week3Only: false,
+      weeklyCompletions: 2,
     },
     {
       name: "Kitchen trash",
       week3Only: false,
+      allowMultipleCompletions: true,
     },
     {
       name: "Clean shoe rack",

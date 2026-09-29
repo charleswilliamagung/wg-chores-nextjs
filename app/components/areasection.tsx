@@ -1,4 +1,6 @@
+import { useRef } from "react";
 import { Task, Entry } from "../types";
+import { getCompletionCount } from "../../lib/helpers";
 
 type AreaSectionProps = {
   title: string;
@@ -26,7 +28,9 @@ type AreaSectionProps = {
   markDoneToday: (
     area: string,
     task: string,
-    week: number
+    week: number,
+    allowMultiple: boolean,
+    currentValue: string
   ) => Promise<void>;
 
   getAssignedPerson: (
@@ -48,6 +52,8 @@ export default function AreaSection({
   markDoneToday,
   getAssignedPerson,
 }: AreaSectionProps) {
+  const inputRefs = useRef<Record<string, HTMLInputElement | null>>({});
+
 return (
   <>
     <tr>
@@ -80,6 +86,17 @@ return (
 
           const isFutureWeek =
             week - 1 > currentWeek;
+          const value = getCellValue(
+            entries,
+            area,
+            task.name,
+            week
+          );
+          const cellKey = `${area}:${task.name}:${week}`;
+          const allowMultiple =
+            Boolean(task.allowMultipleCompletions) ||
+            (task.weeklyCompletions ?? 1) > 1;
+          const completionCount = getCompletionCount(value);
 
           return (
             <td
@@ -92,16 +109,18 @@ return (
             >
               {!disabled &&
                 !isFutureWeek && (
+                <>
                 <div className="flex items-center gap-1">
                 <input
-                    defaultValue={getCellValue(
-                    entries,
-                    area,
-                    task.name,
-                    week
-                    )}
+                    key={value}
+                    ref={(input) => {
+                      inputRefs.current[cellKey] = input;
+                    }}
+                    defaultValue={value}
                     placeholder="dd.mm"
-                    className="w-full bg-transparent outline-none text-center"
+                    title={value}
+                    aria-label={`${task.name} completion dates, week ${week}`}
+                    className="w-full min-w-0 bg-transparent outline-none text-center"
                     onBlur={(e) =>
                     saveCell(
                         area,
@@ -122,17 +141,28 @@ return (
                     hover:bg-slate-300
                     rounded
                     "
+                    onMouseDown={(event) => event.preventDefault()}
                     onClick={() =>
                     markDoneToday(
                         area,
                         task.name,
-                        week
+                        week,
+                        allowMultiple,
+                        inputRefs.current[cellKey]?.value ?? value
                     )
                     }
                 >
                     +
                 </button>
                 </div>
+                {(task.weeklyCompletions || task.allowMultipleCompletions) && (
+                  <p className="mt-1 text-center text-xs text-slate-500">
+                    {task.weeklyCompletions
+                      ? `${completionCount}/${task.weeklyCompletions} this week`
+                      : `${completionCount} this week`}
+                  </p>
+                )}
+                </>
                 )}
             </td>
           );

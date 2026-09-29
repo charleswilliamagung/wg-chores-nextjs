@@ -15,3 +15,10 @@ export function getCellValue(
 
   return entry?.value || "";
 }
+
+export function getCompletionCount(value: string) {
+  return value
+    .split("|")
+    .filter((completion) => completion.trim().length > 0)
+    .length;
+}
