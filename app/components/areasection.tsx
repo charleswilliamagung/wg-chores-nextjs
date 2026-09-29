@@ -52,7 +52,7 @@ function TaskRow({
     if (isTwoDateTask) {
       return [dates[0] ?? "", dates[1] ?? ""];
     }
-    return isUnlimitedMultiTask ? (dates.length ? dates : [""]) : [value];
+    return isUnlimitedMultiTask ? dates : [value];
   });
   const completionCount = getCompletionCount(value);
   const isComplete = completionCount >= target;
@@ -109,11 +109,9 @@ function TaskRow({
                 if (isTwoDateTask && index === 0 && !nextValue.trim()) {
                   return ["", ""];
                 }
-
-                const updatedDates = dates.map((date, dateIndex) =>
+                return dates.map((date, dateIndex) =>
                   dateIndex === index ? nextValue : date
                 );
-                return updatedDates;
               });
             }}
             onBlur={saveCurrentValue}
@@ -127,7 +125,7 @@ function TaskRow({
       })}
 
       {isUnlimitedMultiTask &&
-        dateValues.every((date) => date.trim()) && (
+        (!dateValues.length || dateValues.every((date) => date.trim())) && (
           <button
             type="button"
             onClick={() => setDateValues((dates) => [...dates, ""])}

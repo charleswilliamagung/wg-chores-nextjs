@@ -117,11 +117,7 @@ export default function Home() {
     }
 
     const today = getTodayString();
-    const value =
-      currentValue
-        ? `${currentValue} | ${today}`
-        : today;
-
+    const value = currentValue ? `${currentValue} | ${today}` : today;
     await saveCell(area, task, week, value);
   }
 
