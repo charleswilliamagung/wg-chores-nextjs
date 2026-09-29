@@ -67,7 +67,7 @@ function TaskRow({
     : dateValues.map((_, index) => index);
 
   return (
-    <li className="flex min-h-[47px] items-center gap-2.5 py-2">
+    <li className="flex min-h-[47px] flex-wrap items-center gap-2.5 py-2">
       <span
         aria-hidden="true"
         className={`flex size-[15px] shrink-0 items-center justify-center rounded-full border ${
